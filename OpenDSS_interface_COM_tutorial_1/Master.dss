@@ -1,0 +1,35 @@
+// -----------------------------------------------------------------------//
+// Name: Paulo Radatz 
+// e-mail: paulo.radatz@gmail.com 
+// -----------------------------------------------------------------------//
+
+Clear
+
+// Equivalente de Thevenin
+New Circuit.Fonte phases=3 basekv=13.8 bus1=A
+
+// Transformador
+New Transformer.Trafo phases=3 windings=2 xhl=5 %loadloss=0.15 %noloadloss=0.015 %imag=2
+~ wdg=1 bus=A kv=13.8 kva=300 conn=wye
+~ wdg=2 bus=B kv=0.22 kva=300 conn=wye
+
+// Arranjo
+New LineCode.Arranjo nphases=3 basefreq=60 units=km
+~ Rmatrix=[0.19  |0.06  0.19  |0.06  0.06  0.19]		!ohm/km
+~ Xmatrix=[0.86  |0.49  0.86  |0.44  0.49  0.86]          !ohm/km
+~ Cmatrix=[9.34  |-2.21  9.93  |-0.99  -2.24  9.27]       !nF/km
+
+// Linhas
+New Line.Linha1 phases=3 Bus1=B Bus2=C Length=0.2 units=km linecode=Arranjo
+New Line.Linha2 phases=3 Bus1=C Bus2=D Length=0.15 units=km linecode=Arranjo
+
+// Carga
+New Load.Carga phases=3 conn=wye Bus1=C kw=25 pf=0.92 kv=0.22 !daily=FimSemana1h
+
+// Medidor
+New energymeter.medidor element=Transformer.Trafo terminal=1
+
+Set voltagebases = [13.8 0.22]
+calcVoltagebases
+
+
