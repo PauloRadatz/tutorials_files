@@ -2,7 +2,7 @@ def define_3ph_pvsystem_with_transformer(dss, bus, kv, kva, pmpp):
 
     dss.text("New line.PV_{} phases=3 bus1={} bus2=PV_sec_{} switch=yes".format(bus, bus, bus))
     dss.text("New transformer.PV_{} phases=3 windings=2 buses=(PV_sec_{}, PV_ter_{}) conns=(wye, wye) kVs=({},0.48) "
-             "xhl=5.67 %R=0.4726 kVAs=({}, {})".format(bus, bus, bus, kv, kva, kva))
+             "xhl=5.67 %R=0.4726 kVAs=({}, {})".format(bus, bus, bus, kv * 1.73, kva, kva)) !The voltage must be L-L for a 3-pf element - The first version was using L-N voltage, which is a huge mistake - I am sorry
 
     dss.text("makebuslist")
     dss.text("setkVBase bus=PV_sec_{} kVLL={}".format(bus, kv))
