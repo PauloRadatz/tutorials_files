@@ -1,0 +1,31 @@
+ClearAll
+
+Compile Master_ckt5.dss
+
+batchedit load..* daily=default
+
+! Parte 2 - 1
+edit Reactor.MDV_SUB_1_HSB x=0.0000001
+edit Transformer.MDV_SUB_1 %loadloss=0.0000001 xhl=0.00000001
+
+! Parte 2 - 2
+Set mode=Snapshot
+solve
+
+! A
+plot profile
+
+! D
+show losses
+
+! Parte 2 - 3
+set maxcontroli=100
+set maxiteration=20
+
+set mode=daily
+set number=24
+set stepsize=1h
+solve
+
+! A, B, C
+show meters

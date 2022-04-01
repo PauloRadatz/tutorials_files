@@ -1,0 +1,24 @@
+ClearAll
+
+Compile Master_ckt5.dss
+
+batchedit load..* daily=default
+
+! Parte 3 - 1
+new loadshape.gen npts=24 interval=1 mult=[0 0 0 0 0 0 .1 .2 .3  .5  .8  .9  1.0  1.0  .99  .9  .7  .4  .1 0  0  0  0  0]
+new generator.gen bus1=74433 kv=12.47 kw=8000 daily=gen
+
+! Parte 3 - 2
+set demandinterval=True
+set voltexceptionreport=True
+
+set maxcontroli=100
+set maxiteration=20
+
+set mode=daily
+set number=24
+set stepsize=1h
+solve
+CloseDI
+
+Show meters
